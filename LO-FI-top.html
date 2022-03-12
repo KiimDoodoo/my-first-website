@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <!-- 해당 페이지는 생활코딩 영상의 웹-1 웹-2의 css내용까지의 분량을 보고 복습하는 부분으로 
+만들고자 하는 페이지는 로파이 음악 장르에 대해 위키에 정리된 내용을 만들 예정이다 -->
+
+  <head>
+    <meta charset="utf-8" />
+    <title>LOFI-MUSIC Prototype-1</title>
+    <!--
+            타이틀 태그의 경우, 웹페이지의 상단 탭 부분에 제시될 사이트 명을 표시한다
+        -->
+  </head>
+  <link rel="stylesheet" href="Lo-FIst.css" />
+  <!--    
+    이 부분은 css에 해당하는 내용으로 아래의 타이틀을 비롯한 
+    바디 부분에 들어가는 데이터를 어떻게 꾸밀 것인지 정리하는 부분이라고 할 수 있다.
+    초반에는 탑페이지에 한번 정리하고 기준을 정한 다음에 css파일에 해당 코드를 옮기면 될 듯
+    -->
+
+  <body>
+    <h1>
+      <a href="LO-FI-top.html"> LO-FI Music is </a>
+
+      <!--  <a href="~~~"> 해당 TAG 는  앵커라고 의미한다라고 하고 있으며, 해당 택스트에 
+       링크를 기입하기 위해서 활용된다고 정의 되어있다
+       "The a tag defines a hyperlink, which is used to link from one page to another." 
+       H 태그는 워드에서 볼 수 있는 제목 텍스트와 같은 부분으로 
+        1~6까지의 값을 입력해서 웹 페이지 내에 제목 폰트가 차이가 난다
+    --></h1>
+    <ol>
+      <li><a href="LO-FI definition.html">정의</a></li>
+      <li><a href="lofi-history50-70.html">역사 1950-1970년대</a></li>
+      <li><a href="lofi-history70-80.html">역사 1970-1980년대</a></li>
+      <li><a href="lofi-history90.html">역사 1990년대</a></li>
+      <li><a href="lofi-history00-pre.html">역사 2000년대-현재</a></li>
+    </ol>
+    <!--
+        div 태그의 경우 아무런 속성 값이 없는 태그로 알고 있는데 그게 맞나...?
+    -->
+    <h2>
+      <p>
+        <a href="https://en.wikipedia.org/wiki/Lo-fi_music">"Lo-fi"</a>
+        and "DIY music" redirect here. For other uses,see Lo-fi (disambiguation)
+        and DIY (disambiguation). Not to be confused with Chill-out music, Lofi
+        hip hop, or Slacker rock.
+      </p>
+      <p>
+        (나무위키)Low Fidelity의 약자로 음질이 낮고 잡음이 많은 곡을 의미한다.
+        반의어로 최대한 원음에 가까운 고음질의 음원을 가리키는 하이파이가 있다.
+      </p>
+
+      <div>
+        <img src="로파이탑.jpg" width="100%" />
+      </div>
+    </h2>
+
+    <!--
+        @사진을 첨부하려면 어떻게 해야하지??
+        img scr="파일명.확장자" 해도 적용이 안된다
+        <div>
+            <img scr="lo-fi-top.jpg">
+        </div> 이거 뭐가 문제일까...? 답: img scr 이 아니라 'src'로 고쳐야 한다 
+        알파벳 하나라도 틀리면 작동 안한다.
+        
+        @ <br> / <p> 태그의 경우 왼쪽은 엔터를 의미하고 오른쪽은 문단을 기준 지어주는 태그이다 
+        각각의 마진을 주거나 등등의 속성에 대한 특징이 다르기 때문에 
+        텍스트를 나눌 때에 적절하게 써줄 필요가 있어보인다.
+    -->
+    <h6>
+      <div id="copyright">
+        <p>
+          copyright 2022&copy; 해당 게시물의 저작권은 KiimDoodoo에게 있을지도
+          없을지도?
+        </p>
+      </div>
+    </h6>
+  </body>
+</html>

@@ -1,0 +1,31 @@
+h1 {
+    color: darkorange
+    text-align: center;
+    border-bottom: 5px darkorange dashed;
+    text-decoration: none;
+    font-size: 50px;
+    text-align: center;
+    margin-bottom:10px;
+    
+
+}
+
+ol {
+    font-size: 25px;
+    border-style: dashed;
+    border-color:goldenrod;
+    margin: 0px;
+    width:fit-content
+    
+}
+
+#copyright {
+    text-align: center;
+    font-style: unset;
+}
+@media (max-width: 800px){
+    ol{
+        border:none;
+    }
+    
+}
