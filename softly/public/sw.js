@@ -1,6 +1,6 @@
 // Softly service worker: app-shell caching so the app opens offline.
 // All user data lives in localStorage, so caching pages is enough.
-const CACHE_NAME = "softly-v1";
+const CACHE_NAME = "softly-v2";
 
 const APP_SHELL = [
   "/",
@@ -16,6 +16,7 @@ const APP_SHELL = [
   "/icon.svg",
   "/icon-192.png",
   "/icon-512.png",
+  "/icon-maskable.png",
   "/apple-touch-icon.png",
 ];
 
