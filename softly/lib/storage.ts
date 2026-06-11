@@ -150,3 +150,75 @@ export function exportAllData(): string {
 export function clearAllData(): void {
   Object.values(STORAGE_KEYS).forEach(remove);
 }
+
+// --- import (restore from a JSON export) ---
+
+export interface ImportPreview {
+  profile: UserProfile | null;
+  dailyCheckIns: DailyCheckIn[];
+  unusualEvents: UnusualEvent[];
+  safetyCard: SafetyCard | null;
+}
+
+function isRecord(v: unknown): v is Record<string, unknown> {
+  return typeof v === "object" && v !== null && !Array.isArray(v);
+}
+
+/**
+ * Parses a Softly JSON export. Returns null when the file isn't
+ * recognizably a Softly export. Malformed entries are dropped.
+ */
+export function parseImport(raw: string): ImportPreview | null {
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(raw);
+  } catch {
+    return null;
+  }
+  if (!isRecord(parsed)) return null;
+
+  const profile =
+    isRecord(parsed.profile) && typeof parsed.profile.mode === "string"
+      ? (parsed.profile as unknown as UserProfile)
+      : null;
+
+  const dailyCheckIns = Array.isArray(parsed.dailyCheckIns)
+    ? (parsed.dailyCheckIns.filter(
+        (c) =>
+          isRecord(c) &&
+          typeof c.date === "string" &&
+          typeof c.bodyState === "string",
+      ) as unknown as DailyCheckIn[])
+    : [];
+
+  const unusualEvents = Array.isArray(parsed.unusualEvents)
+    ? (parsed.unusualEvents.filter(
+        (e) =>
+          isRecord(e) &&
+          typeof e.date === "string" &&
+          typeof e.time === "string",
+      ) as unknown as UnusualEvent[])
+    : [];
+
+  const safetyCard = isRecord(parsed.safetyCard)
+    ? (parsed.safetyCard as SafetyCard)
+    : null;
+
+  const hasAnything =
+    profile !== null ||
+    dailyCheckIns.length > 0 ||
+    unusualEvents.length > 0 ||
+    safetyCard !== null;
+  if (!hasAnything) return null;
+
+  return { profile, dailyCheckIns, unusualEvents, safetyCard };
+}
+
+/** Replaces this device's data with the imported export. */
+export function applyImport(data: ImportPreview): void {
+  if (data.profile) write(STORAGE_KEYS.profile, data.profile);
+  write(STORAGE_KEYS.checkins, data.dailyCheckIns);
+  write(STORAGE_KEYS.events, data.unusualEvents);
+  if (data.safetyCard) write(STORAGE_KEYS.safetyCard, data.safetyCard);
+  remove(STORAGE_KEYS.draft);
+}

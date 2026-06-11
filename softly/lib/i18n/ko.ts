@@ -327,6 +327,13 @@ export const ko = {
     languages: { ko: "한국어", en: "English" },
     exportJson: "데이터 내보내기 (JSON)",
     exportDone: "복사했어요",
+    importJson: "데이터 가져오기 (JSON)",
+    importConfirm: (c: number, e: number) =>
+      `체크인 ${c}개, 특이한 일 ${e}건을 가져올까요? 지금 이 기기의 기록은 가져온 데이터로 바뀌어요.`,
+    importYes: "네, 가져올게요",
+    importDone: "데이터를 가져왔어요.",
+    importError:
+      "파일을 읽지 못했어요. Softly에서 내보낸 JSON 파일인지 확인해 주세요.",
     clearData: "모든 기록 지우기",
     clearConfirm:
       "정말 모든 기록을 지울까요? 이 기기에서만 지워지고, 되돌릴 수 없어요.",

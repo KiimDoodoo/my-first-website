@@ -339,6 +339,13 @@ export const en: Dict = {
     languages: { ko: "한국어", en: "English" },
     exportJson: "Export data (JSON)",
     exportDone: "Copied",
+    importJson: "Import data (JSON)",
+    importConfirm: (c: number, e: number) =>
+      `Import ${c} check-in${c === 1 ? "" : "s"} and ${e} unusual-event record${e === 1 ? "" : "s"}? The records on this device will be replaced.`,
+    importYes: "Yes, import",
+    importDone: "Data imported.",
+    importError:
+      "Couldn't read the file. Please check that it's a JSON file exported from Softly.",
     clearData: "Clear all records",
     clearConfirm:
       "Clear all records? This only affects this device and cannot be undone.",
