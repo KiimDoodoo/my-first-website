@@ -50,10 +50,20 @@ export const ko = {
     medCard: "오늘 약은 챙기셨어요? 체크만 해두면 돼요.",
     medCardDismiss: "나중에요",
     nav: {
+      breathe: "숨 고르기",
       summary: "7일 리듬",
       records: "기록 보기",
       safety: "안심 카드",
       settings: "설정",
+    },
+    selfCare: {
+      title: "오늘의 작은 돌봄",
+      hint: "해도 좋고, 안 해도 괜찮아요.",
+      items: {
+        water: "물 한 잔",
+        walk: "잠깐 걷기",
+        window: "창밖 보기",
+      },
     },
     greetings: {
       default: [
@@ -169,6 +179,12 @@ export const ko = {
     complete: {
       viewToday: "오늘 기록 보기",
       addEventDetail: "특이한 일 자세히 남기기",
+      breatheSuggestion: "오늘은 조금 무거웠네요. 잠깐 숨을 고르고 가도 좋아요.",
+      breatheLink: "1분 숨 고르기",
+      oneGoodThing: "오늘 마음에 남는 한 가지가 있다면, 적어둘래요?",
+      oneGoodThingPlaceholder: "한 줄이면 충분해요 (선택)",
+      oneGoodThingSave: "적어두기",
+      oneGoodThingSaved: "잘 담아뒀어요.",
     },
     responses: {
       okay: [
@@ -239,6 +255,7 @@ export const ko = {
       highStress: (n: number) => `스트레스가 높은 날이 ${n}번 있었어요.`,
       medication: (n: number) => `복약을 체크한 날이 ${n}일 있었어요.`,
       events: (n: number) => `특이한 일 기록이 ${n}건 있었어요.`,
+      selfCare: (n: number) => `작은 돌봄을 ${n}번 챙겼어요.`,
     },
     sideBySideNote: "이 기록들이 같은 날에 함께 나타났는지 함께 볼 수 있어요.",
     timelineRows: {
@@ -284,6 +301,17 @@ export const ko = {
     notePlaceholder: "한 줄 메모 (선택)",
     saveDetails: "이대로 저장하기",
     editTitle: "특이한 일 수정",
+  },
+
+  breathe: {
+    title: "숨 고르기",
+    intro: "1분이면 충분해요. 편한 자세로, 시작하고 싶을 때 시작해요.",
+    start: "시작하기",
+    inhale: "천천히 들이쉬어요",
+    exhale: "천천히 내쉬어요",
+    done: "잘했어요. 오늘의 호흡은 이걸로 충분해요.",
+    again: "한 번 더",
+    note: "언제든 멈춰도 괜찮아요.",
   },
 
   records: {

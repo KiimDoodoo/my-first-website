@@ -2,6 +2,9 @@ import type {
   CheckInDraft,
   DailyCheckIn,
   SafetyCard,
+  SelfCareDay,
+  SelfCareKey,
+  SelfCareLog,
   UnusualEvent,
   UserProfile,
 } from "./types";
@@ -13,6 +16,7 @@ export const STORAGE_KEYS = {
   safetyCard: "softly_safety_card",
   draft: "softly_checkin_draft",
   medCardDismissed: "softly_med_card_dismissed",
+  selfCare: "softly_selfcare",
 } as const;
 
 function read<T>(key: string, fallback: T): T {
@@ -134,6 +138,23 @@ export function dismissMedCard(today: string): void {
   write(STORAGE_KEYS.medCardDismissed, today);
 }
 
+// --- self-care marks ---
+
+export function getSelfCareLog(): SelfCareLog {
+  return read<SelfCareLog>(STORAGE_KEYS.selfCare, {});
+}
+
+export function getSelfCareDay(date: string): SelfCareDay {
+  return getSelfCareLog()[date] ?? {};
+}
+
+export function toggleSelfCare(date: string, key: SelfCareKey): SelfCareDay {
+  const log = getSelfCareLog();
+  const day = { ...(log[date] ?? {}), [key]: !log[date]?.[key] };
+  write(STORAGE_KEYS.selfCare, { ...log, [date]: day });
+  return day;
+}
+
 // --- export / clear ---
 
 export function exportAllData(): string {
@@ -142,6 +163,7 @@ export function exportAllData(): string {
     dailyCheckIns: getCheckIns(),
     unusualEvents: getEvents(),
     safetyCard: getSafetyCard(),
+    selfCare: getSelfCareLog(),
     exportedAt: new Date().toISOString(),
   };
   return JSON.stringify(data, null, 2);
@@ -158,6 +180,7 @@ export interface ImportPreview {
   dailyCheckIns: DailyCheckIn[];
   unusualEvents: UnusualEvent[];
   safetyCard: SafetyCard | null;
+  selfCare: SelfCareLog | null;
 }
 
 function isRecord(v: unknown): v is Record<string, unknown> {
@@ -204,14 +227,19 @@ export function parseImport(raw: string): ImportPreview | null {
     ? (parsed.safetyCard as SafetyCard)
     : null;
 
+  const selfCare = isRecord(parsed.selfCare)
+    ? (parsed.selfCare as SelfCareLog)
+    : null;
+
   const hasAnything =
     profile !== null ||
     dailyCheckIns.length > 0 ||
     unusualEvents.length > 0 ||
-    safetyCard !== null;
+    safetyCard !== null ||
+    selfCare !== null;
   if (!hasAnything) return null;
 
-  return { profile, dailyCheckIns, unusualEvents, safetyCard };
+  return { profile, dailyCheckIns, unusualEvents, safetyCard, selfCare };
 }
 
 /** Replaces this device's data with the imported export. */
@@ -220,5 +248,6 @@ export function applyImport(data: ImportPreview): void {
   write(STORAGE_KEYS.checkins, data.dailyCheckIns);
   write(STORAGE_KEYS.events, data.unusualEvents);
   if (data.safetyCard) write(STORAGE_KEYS.safetyCard, data.safetyCard);
+  if (data.selfCare) write(STORAGE_KEYS.selfCare, data.selfCare);
   remove(STORAGE_KEYS.draft);
 }

@@ -52,10 +52,20 @@ export const en: Dict = {
     medCard: "Have you taken your medication today? A quick check is enough.",
     medCardDismiss: "Later",
     nav: {
+      breathe: "Catch your breath",
       summary: "7-day rhythm",
       records: "Records",
       safety: "Safety card",
       settings: "Settings",
+    },
+    selfCare: {
+      title: "Today's small care",
+      hint: "Nice to do, fine to skip.",
+      items: {
+        water: "A glass of water",
+        walk: "A short walk",
+        window: "Look out the window",
+      },
     },
     greetings: {
       default: [
@@ -171,6 +181,14 @@ export const en: Dict = {
     complete: {
       viewToday: "View today's record",
       addEventDetail: "Add details about the unusual event",
+      breatheSuggestion:
+        "Today felt a little heavy. Taking a moment to breathe might help.",
+      breatheLink: "1-minute breathing",
+      oneGoodThing:
+        "If one thing stayed with you today, want to note it down?",
+      oneGoodThingPlaceholder: "One line is plenty (optional)",
+      oneGoodThingSave: "Note it down",
+      oneGoodThingSaved: "Safely kept.",
     },
     responses: {
       okay: [
@@ -248,6 +266,8 @@ export const en: Dict = {
         `Medication was checked on ${n} ${n === 1 ? "day" : "days"}.`,
       events: (n: number) =>
         `There ${n === 1 ? "was" : "were"} ${n} unusual-event ${n === 1 ? "record" : "records"}.`,
+      selfCare: (n: number) =>
+        `You did ${n} small ${n === 1 ? "act" : "acts"} of care.`,
     },
     sideBySideNote:
       "You can see whether these records appeared on the same days.",
@@ -294,6 +314,17 @@ export const en: Dict = {
     notePlaceholder: "One short note (optional)",
     saveDetails: "Save as is",
     editTitle: "Edit unusual event",
+  },
+
+  breathe: {
+    title: "Catch your breath",
+    intro: "One minute is plenty. Get comfortable and start whenever you like.",
+    start: "Start",
+    inhale: "Breathe in slowly",
+    exhale: "Breathe out slowly",
+    done: "Well done. That's enough breathing for today.",
+    again: "Once more",
+    note: "It's okay to stop anytime.",
   },
 
   records: {

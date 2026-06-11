@@ -34,6 +34,7 @@ npm start
 | Landing / home (helper greeting) | `/` |
 | Onboarding (worker / parent / student mode) | `/onboarding` |
 | Daily check-in (conversational, one question per screen) | `/checkin` |
+| 1-minute breathing guide | `/breathe` |
 | Today summary | `/today` |
 | 7-day rhythm summary | `/summary` |
 | Quick unusual-event record | `/event` |

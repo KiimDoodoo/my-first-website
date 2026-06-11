@@ -50,6 +50,11 @@ export interface SafetyCard {
   additionalNotes?: string;
 }
 
+/** One-tap self-care marks for a day. No targets, no streaks. */
+export type SelfCareKey = "water" | "walk" | "window";
+export type SelfCareDay = Partial<Record<SelfCareKey, boolean>>;
+export type SelfCareLog = Record<string, SelfCareDay>; // keyed by YYYY-MM-DD
+
 export interface CheckInDraft {
   date: string; // YYYY-MM-DD — only restored on the same day
   answers: Partial<
