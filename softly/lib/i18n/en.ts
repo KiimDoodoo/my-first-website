@@ -19,7 +19,7 @@ export const en: Dict = {
   landing: {
     subtitle: "Turn the condition that's hard to put into words\ninto records you can show",
     description:
-      "A little friend asks you one or two things a day. One tap is enough — and your records become a calm summary you can show a clinician or family when needed.",
+      "A little friend asks you one or two things a day. One tap is enough — and your records become a calm summary you can show family or someone you trust when needed.",
     note: "These records are for self-reflection, not medical advice.",
     start: "Get started",
   },
@@ -352,7 +352,7 @@ export const en: Dict = {
     from: "From",
     to: "To",
     empty:
-      "No records in this period yet. As records build up, you can review them here at a glance before an appointment or a talk.",
+      "No records in this period yet. As records build up, you can review them here at a glance before an important talk.",
     checkinLabel: "Check-in",
     eventLabel: "Unusual event",
     copyText: "Copy as text",
