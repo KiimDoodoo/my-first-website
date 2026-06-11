@@ -55,7 +55,7 @@ function Home() {
           <h1 className="text-3xl font-bold text-sage-700 dark:text-sage-300">
             {t.common.appName}
           </h1>
-          <p className="mt-2 text-warm-700 dark:text-warm-300">
+          <p className="mt-2 whitespace-pre-line text-warm-700 dark:text-warm-300">
             {t.landing.subtitle}
           </p>
         </div>
@@ -95,6 +95,13 @@ function Home() {
       <div className="flex flex-col items-center gap-4 text-center">
         <Character size={104} />
         <p className="text-lg text-warm-800 dark:text-warm-100">{greeting}</p>
+        {!todayRecord &&
+          profile.checkinMoment &&
+          t.home.momentLines[profile.checkinMoment] && (
+            <p className="text-sm text-warm-500 dark:text-warm-400">
+              {t.home.momentLines[profile.checkinMoment]}
+            </p>
+          )}
       </div>
 
       {showMedCard && (
@@ -166,9 +173,15 @@ function Home() {
       <nav className="mt-2 grid grid-cols-2 gap-3">
         <Link
           href="/breathe"
-          className="col-span-2 flex min-h-14 items-center justify-center rounded-2xl border border-sage-200 bg-sage-50 text-sage-700 shadow-sm active:bg-sage-100 dark:border-sage-700 dark:bg-sage-900 dark:text-sage-200 dark:active:bg-sage-800"
+          className="flex min-h-14 items-center justify-center rounded-2xl border border-sage-200 bg-sage-50 text-sage-700 shadow-sm active:bg-sage-100 dark:border-sage-700 dark:bg-sage-900 dark:text-sage-200 dark:active:bg-sage-800"
         >
           {t.home.nav.breathe}
+        </Link>
+        <Link
+          href="/moments"
+          className="flex min-h-14 items-center justify-center rounded-2xl border border-sage-200 bg-sage-50 text-sage-700 shadow-sm active:bg-sage-100 dark:border-sage-700 dark:bg-sage-900 dark:text-sage-200 dark:active:bg-sage-800"
+        >
+          {t.home.nav.moments}
         </Link>
         {(
           [

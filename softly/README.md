@@ -35,6 +35,7 @@ npm start
 | Onboarding (worker / parent / student mode) | `/onboarding` |
 | Daily check-in (conversational, one question per screen) | `/checkin` |
 | 1-minute breathing guide | `/breathe` |
+| Memory drawer (collected one-liners + record calendar) | `/moments` |
 | Today summary | `/today` |
 | 7-day rhythm summary | `/summary` |
 | Quick unusual-event record | `/event` |

@@ -2,9 +2,13 @@ export type Mode = "worker" | "parent" | "student";
 
 export type Language = "ko" | "en";
 
+/** When the user prefers to check in — used for gentle copy, never for nagging. */
+export type CheckinMoment = "night" | "morning" | "medication" | "anytime";
+
 export interface UserProfile {
   mode: Mode;
   language: Language;
+  checkinMoment?: CheckinMoment;
   createdAt: string;
 }
 

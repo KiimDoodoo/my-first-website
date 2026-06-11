@@ -7,6 +7,26 @@
   "background_color": "#faf8f5",
   "theme_color": "#faf8f5",
   "lang": "ko",
+  "shortcuts": [
+    {
+      "name": "오늘 체크인하기",
+      "short_name": "체크인",
+      "url": "/checkin",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "특이한 일 기록",
+      "short_name": "특이한 일",
+      "url": "/event",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "마음 서랍",
+      "short_name": "마음 서랍",
+      "url": "/moments",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    }
+  ],
   "icons": [
     {
       "src": "/icon-192.png",

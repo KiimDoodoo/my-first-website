@@ -17,9 +17,9 @@ export const en: Dict = {
   },
 
   landing: {
-    subtitle: "A small, quiet space to look at your day",
+    subtitle: "Turn the condition that's hard to put into words\ninto records you can show",
     description:
-      "A little friend asks you one or two things a day. No long writing needed — one tap is enough.",
+      "A little friend asks you one or two things a day. One tap is enough — and your records become a calm summary you can show a clinician or family when needed.",
     note: "These records are for self-reflection, not medical advice.",
     start: "Get started",
   },
@@ -27,6 +27,14 @@ export const en: Dict = {
   onboarding: {
     question: "What kind of day should Softly keep you company through?",
     hint: "You can change this anytime in Settings.",
+    momentQuestion: "When would you like to check in?",
+    momentHint: "Attaching it to an existing habit makes it easy to remember.",
+    moments: {
+      night: "Before sleep",
+      morning: "Starting the day",
+      medication: "With my medication",
+      anytime: "No set time",
+    },
     modes: {
       worker: {
         label: "A working day",
@@ -53,10 +61,17 @@ export const en: Dict = {
     medCardDismiss: "Later",
     nav: {
       breathe: "Catch your breath",
+      moments: "Memory drawer",
       summary: "7-day rhythm",
       records: "Records",
       safety: "Safety card",
       settings: "Settings",
+    },
+    momentLines: {
+      night: "Before sleep, gently look back at today.",
+      morning: "As the day starts, take a moment for yourself.",
+      medication: "While you're at your medication, a light check-in too.",
+      anytime: "",
     },
     selfCare: {
       title: "Today's small care",
@@ -251,6 +266,8 @@ export const en: Dict = {
 
   summary: {
     title: "7-day rhythm",
+    earlyHint:
+      "Even three days of records start to show your rhythm. Slowly, one day at a time is plenty.",
     selfCare: (n: number) =>
       `This week, you checked in with yourself ${n} ${n === 1 ? "time" : "times"}.`,
     lines: {
@@ -334,7 +351,8 @@ export const en: Dict = {
     rangeCustom: "Custom",
     from: "From",
     to: "To",
-    empty: "No records in this period.",
+    empty:
+      "No records in this period yet. As records build up, you can review them here at a glance before an appointment or a talk.",
     checkinLabel: "Check-in",
     eventLabel: "Unusual event",
     copyText: "Copy as text",
@@ -342,6 +360,20 @@ export const en: Dict = {
     print: "Printable view",
     exportTitle: (from: string, to: string) =>
       `Softly records (${from} – ${to})`,
+    periodSummary: "Period summary",
+    periodCheckins: (n: number) =>
+      `You checked in with yourself ${n} ${n === 1 ? "time" : "times"} in this period.`,
+    printedAt: (date: string) =>
+      `Printed ${date} · Softly personal records`,
+  },
+
+  moments: {
+    title: "Memory drawer",
+    intro:
+      "The one-liners you noted after check-ins are collected here.",
+    empty:
+      "The drawer is still empty. Note one line after a check-in, and you'll build up sentences of your own to revisit on hard days.",
+    calendarLegend: "Days you left a record",
   },
 
   safety: {
@@ -366,6 +398,7 @@ export const en: Dict = {
   settings: {
     title: "Settings",
     mode: "Your kind of day",
+    moment: "Check-in moment",
     language: "Language",
     languages: { ko: "한국어", en: "English" },
     exportJson: "Export data (JSON)",

@@ -48,9 +48,42 @@ function Records() {
     }));
   }, [checkIns, events, from, to]);
 
+  // Period counts — shown on screen and on the printable report.
+  // Records only, no interpretation (correlation rule).
+  const periodCounts = useMemo(() => {
+    const inRange = (d: string) => d >= from && d <= to;
+    const cs = checkIns.filter((c) => inRange(c.date));
+    return {
+      checkins: cs.length,
+      overloaded: cs.filter((c) => c.bodyState === "overloaded").length,
+      shortSleep: cs.filter((c) => c.sleep === "short" || c.sleep === "barely")
+        .length,
+      highFatigue: cs.filter((c) => c.fatigue === "high").length,
+      highStress: cs.filter((c) => c.stress === "high").length,
+      medication: cs.filter((c) => c.medication === "done").length,
+      events: events.filter((e) => inRange(e.date)).length,
+    };
+  }, [checkIns, events, from, to]);
+
+  const summaryLines = [
+    t.summary.lines.overloaded(periodCounts.overloaded),
+    t.summary.lines.shortSleep(periodCounts.shortSleep),
+    t.summary.lines.highFatigue(periodCounts.highFatigue),
+    t.summary.lines.highStress(periodCounts.highStress),
+    t.summary.lines.medication(periodCounts.medication),
+    t.summary.lines.events(periodCounts.events),
+  ];
+
   // Human-readable plain-text export — records only, no interpretation.
   const buildExportText = (): string => {
-    const lines: string[] = [t.records.exportTitle(from, to), ""];
+    const lines: string[] = [
+      t.records.exportTitle(from, to),
+      "",
+      `${t.records.periodSummary}`,
+      `- ${t.records.periodCheckins(periodCounts.checkins)}`,
+      ...summaryLines.map((l) => `- ${l}`),
+      "",
+    ];
     [...grouped].reverse().forEach(({ date, checkIn, dayEvents }) => {
       lines.push(formatDateDisplay(date, lang) + ` (${date})`);
       if (checkIn) {
@@ -143,6 +176,32 @@ function Records() {
           {t.records.print}
         </button>
       </div>
+
+      {/* printable report header */}
+      <div className="hidden print:block">
+        <h1 className="text-xl font-semibold">
+          {t.records.exportTitle(from, to)}
+        </h1>
+        <p className="mt-1 text-xs text-warm-500">
+          {t.records.printedAt(todayStr())}
+        </p>
+      </div>
+
+      <Card>
+        <h2 className="font-medium text-warm-800 dark:text-warm-100">
+          {t.records.periodSummary}
+        </h2>
+        <ul className="mt-2 flex flex-col gap-1">
+          <li className="text-sm text-warm-700 dark:text-warm-200">
+            {t.records.periodCheckins(periodCounts.checkins)}
+          </li>
+          {summaryLines.map((line) => (
+            <li key={line} className="text-sm text-warm-700 dark:text-warm-200">
+              {line}
+            </li>
+          ))}
+        </ul>
+      </Card>
 
       {grouped.length === 0 ? (
         <Card>

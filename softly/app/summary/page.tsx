@@ -90,6 +90,11 @@ function Summary() {
         <p className="text-lg font-medium text-sage-800 dark:text-sage-100">
           {t.summary.selfCare(counts.checkins)}
         </p>
+        {counts.checkins < 3 && (
+          <p className="mt-2 text-sm text-sage-700 dark:text-sage-200">
+            {t.summary.earlyHint}
+          </p>
+        )}
       </Card>
 
       <Card>
