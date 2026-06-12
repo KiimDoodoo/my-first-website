@@ -1,6 +1,6 @@
 // Softly service worker: app-shell caching so the app opens offline.
 // All user data lives in localStorage, so caching pages is enough.
-const CACHE_NAME = "softly-v5";
+const CACHE_NAME = "softly-v6";
 
 const APP_SHELL = [
   "/",
@@ -50,7 +50,13 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
 
-  if (request.mode === "navigate") {
+  // Next.js client-navigation payloads (?_rsc=… / RSC header) must be
+  // network-first too — cache-first would pin users to a stale version
+  // after every deploy.
+  const isRsc =
+    url.searchParams.has("_rsc") || request.headers.get("RSC") === "1";
+
+  if (request.mode === "navigate" || isRsc) {
     // Pages: network first so updates arrive, cache as offline fallback.
     event.respondWith(
       fetch(request)

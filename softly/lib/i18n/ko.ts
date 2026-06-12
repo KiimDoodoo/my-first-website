@@ -72,7 +72,7 @@ export const ko = {
       anytime: "",
     },
     weekRow: {
-      title: "이번 주 페이지",
+      title: "최근 7일의 페이지",
     },
     selfCare: {
       title: "오늘의 작은 돌봄",
@@ -94,8 +94,8 @@ export const ko = {
       longGap:
         "다시 만나서 반가워요. 부담 갖지 말고, 오늘 하루만 가볍게 들여다봐요.",
       checkedInToday: [
+        "오늘 페이지가 채워졌어요. 편하게 쉬어요.",
         "오늘 기록은 이미 남겨뒀어요. 이만큼이면 충분해요.",
-        "오늘 할 일은 다 했어요. 편하게 쉬어요.",
       ],
     },
   },
@@ -193,6 +193,16 @@ export const ko = {
           sleep: "잠",
         },
       },
+    },
+    stickers: {
+      sprout: "새싹",
+      pebble: "조약돌",
+      moon: "달",
+      cloud: "구름",
+      teacup: "찻잔",
+      leaf: "잎사귀",
+      wave: "물결",
+      star: "별",
     },
     complete: {
       todayPage: "오늘의 페이지",

@@ -195,6 +195,7 @@ function CheckInFlow() {
                 key={id}
                 type="button"
                 aria-pressed={sticker === id}
+                aria-label={t.checkin.stickers[id]}
                 onClick={() => pickSticker(id)}
                 className={`flex h-12 w-12 items-center justify-center rounded-2xl border transition-colors duration-200 ${
                   sticker === id

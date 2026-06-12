@@ -74,7 +74,7 @@ export const en: Dict = {
       anytime: "",
     },
     weekRow: {
-      title: "This week's pages",
+      title: "Pages from the last 7 days",
     },
     selfCare: {
       title: "Today's small care",
@@ -96,8 +96,8 @@ export const en: Dict = {
       longGap:
         "It's good to see you again. No pressure — let's just gently look at today.",
       checkedInToday: [
+        "Today's page is filled in. Rest easy.",
         "Today's record is already saved. That's plenty.",
-        "You're all set for today. Rest easy.",
       ],
     },
   },
@@ -195,6 +195,16 @@ export const en: Dict = {
           sleep: "Sleep",
         },
       },
+    },
+    stickers: {
+      sprout: "Sprout",
+      pebble: "Pebble",
+      moon: "Moon",
+      cloud: "Cloud",
+      teacup: "Teacup",
+      leaf: "Leaf",
+      wave: "Wave",
+      star: "Star",
     },
     complete: {
       todayPage: "Today's page",
