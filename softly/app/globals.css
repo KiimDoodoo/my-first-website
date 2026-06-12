@@ -30,6 +30,47 @@
   color-scheme: light dark;
 }
 
+/* Diary themes: only the accent (sage) scale shifts; neutrals stay calm.
+   All palettes are muted — photosensitivity rules apply to every theme. */
+[data-theme="warm"] {
+  --color-sage-50: #faf6f0;
+  --color-sage-100: #f1e9dd;
+  --color-sage-200: #e2d3bd;
+  --color-sage-300: #ccb494;
+  --color-sage-400: #b29672;
+  --color-sage-500: #997e5c;
+  --color-sage-600: #7d654a;
+  --color-sage-700: #64513d;
+  --color-sage-800: #524336;
+  --color-sage-900: #453a30;
+}
+
+[data-theme="lavender"] {
+  --color-sage-50: #f6f5f9;
+  --color-sage-100: #ebe9f1;
+  --color-sage-200: #d8d4e3;
+  --color-sage-300: #bcb5cd;
+  --color-sage-400: #9d93b4;
+  --color-sage-500: #82779c;
+  --color-sage-600: #6a6080;
+  --color-sage-700: #564e67;
+  --color-sage-800: #474155;
+  --color-sage-900: #3c3747;
+}
+
+[data-theme="forest"] {
+  --color-sage-50: #f2f6f3;
+  --color-sage-100: #e2ebe4;
+  --color-sage-200: #c6d8cb;
+  --color-sage-300: #a0bda9;
+  --color-sage-400: #779d83;
+  --color-sage-500: #5a8167;
+  --color-sage-600: #466852;
+  --color-sage-700: #3a5444;
+  --color-sage-800: #314539;
+  --color-sage-900: #2a3a31;
+}
+
 body {
   background-color: var(--color-warm-50);
   color: var(--color-warm-900);

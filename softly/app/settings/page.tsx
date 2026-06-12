@@ -16,10 +16,24 @@ import {
   type ImportPreview,
 } from "@/lib/storage";
 import { useIsClient } from "@/lib/useIsClient";
-import type { CheckinMoment, Language, Mode, UserProfile } from "@/lib/types";
+import { applyTheme } from "@/components/ThemeApplier";
+import type {
+  CheckinMoment,
+  Language,
+  Mode,
+  Theme,
+  UserProfile,
+} from "@/lib/types";
 
 const MODES: Mode[] = ["worker", "parent", "student"];
 const MOMENTS: CheckinMoment[] = ["night", "morning", "medication", "anytime"];
+const THEMES: Theme[] = ["sage", "warm", "lavender", "forest"];
+const THEME_SWATCH: Record<Theme, string> = {
+  sage: "#748e63",
+  warm: "#997e5c",
+  lavender: "#82779c",
+  forest: "#5a8167",
+};
 const LANGS: Language[] = ["ko", "en"];
 
 export default function SettingsPage() {
@@ -56,6 +70,14 @@ function Settings() {
     const next = { ...profile, checkinMoment };
     saveProfile(next);
     setProfile(next);
+  };
+
+  const setTheme = (theme: Theme) => {
+    if (!profile) return;
+    const next = { ...profile, theme };
+    saveProfile(next);
+    setProfile(next);
+    applyTheme(theme);
   };
 
   const setLanguage = (language: Language) => {
@@ -149,6 +171,29 @@ function Settings() {
               className={optionButton(profile?.checkinMoment === moment)}
             >
               {t.onboarding.moments[moment]}
+            </button>
+          ))}
+        </div>
+      </Card>
+
+      <Card>
+        <h2 className="text-sm text-warm-500 dark:text-warm-400">
+          {t.settings.theme}
+        </h2>
+        <div className="mt-2 grid grid-cols-2 gap-2">
+          {THEMES.map((theme) => (
+            <button
+              key={theme}
+              type="button"
+              onClick={() => setTheme(theme)}
+              className={`${optionButton((profile?.theme ?? "sage") === theme)} flex items-center justify-center gap-2`}
+            >
+              <span
+                className="h-3.5 w-3.5 rounded-full"
+                style={{ backgroundColor: THEME_SWATCH[theme] }}
+                aria-hidden="true"
+              />
+              {t.settings.themes[theme]}
             </button>
           ))}
         </div>

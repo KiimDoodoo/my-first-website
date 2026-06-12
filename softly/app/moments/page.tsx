@@ -3,6 +3,7 @@
 import { useMemo } from "react";
 import Card from "@/components/Card";
 import PageHeader from "@/components/PageHeader";
+import Sticker from "@/components/Sticker";
 import { useI18n } from "@/lib/i18n";
 import { formatDateDisplay, todayStr } from "@/lib/date";
 import { getCheckIns } from "@/lib/storage";
@@ -12,29 +13,6 @@ export default function MomentsPage() {
   const isClient = useIsClient();
   if (!isClient) return null;
   return <Moments />;
-}
-
-/** Tiny sprout mark for days that have a record — records gently accumulate. */
-function Sprout({ strong }: { strong: boolean }) {
-  return (
-    <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
-      <path
-        d="M8 14V8"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        className={strong ? "stroke-sage-600 dark:stroke-sage-300" : "stroke-sage-400 dark:stroke-sage-500"}
-        fill="none"
-      />
-      <path
-        d="M8 9C8 5.5 5.5 4 2.8 4 2.8 7.5 5.3 9 8 9Z"
-        className={strong ? "fill-sage-500 dark:fill-sage-300" : "fill-sage-300 dark:fill-sage-600"}
-      />
-      <path
-        d="M8 7c0-2.6 1.9-3.8 4.2-3.8C12.2 5.8 10.3 7 8 7Z"
-        className={strong ? "fill-sage-400 dark:fill-sage-400" : "fill-sage-200 dark:fill-sage-700"}
-      />
-    </svg>
-  );
 }
 
 function Moments() {
@@ -63,7 +41,7 @@ function Moments() {
     return {
       day: i + 1,
       hasRecord: Boolean(record),
-      hasNote: Boolean(record?.note?.trim()),
+      sticker: record?.sticker,
     };
   });
   const monthLabel = new Date(`${ym}-01T00:00:00`).toLocaleDateString(
@@ -86,11 +64,11 @@ function Moments() {
           {Array.from({ length: firstWeekday }, (_, i) => (
             <span key={`pad-${i}`} />
           ))}
-          {monthDates.map(({ day, hasRecord, hasNote }) => (
+          {monthDates.map(({ day, hasRecord, sticker }) => (
             <span key={day} className="flex flex-col items-center gap-0.5">
               <span className="flex h-5 items-center justify-center">
                 {hasRecord ? (
-                  <Sprout strong={hasNote} />
+                  <Sticker id={sticker ?? "sprout"} size={16} />
                 ) : (
                   <span className="h-1.5 w-1.5 rounded-full bg-warm-200 dark:bg-warm-800" />
                 )}
@@ -102,7 +80,7 @@ function Moments() {
           ))}
         </div>
         <p className="mt-3 flex items-center gap-1.5 text-xs text-warm-400 dark:text-warm-500">
-          <Sprout strong={false} />
+          <Sticker id="sprout" size={16} />
           {t.moments.calendarLegend}
         </p>
       </Card>
@@ -115,8 +93,9 @@ function Moments() {
         <div className="flex flex-col gap-3">
           {notes.map((c) => (
             <Card key={c.id}>
-              <p className="text-xs text-warm-400 dark:text-warm-500">
+              <p className="flex items-center justify-between text-xs text-warm-400 dark:text-warm-500">
                 {formatDateDisplay(c.date, lang)}
+                {c.sticker && <Sticker id={c.sticker} size={18} />}
               </p>
               <p className="mt-1 text-lg leading-relaxed text-warm-800 dark:text-warm-100">
                 {c.note}

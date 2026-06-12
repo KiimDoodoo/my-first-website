@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { I18nProvider } from "@/lib/i18n";
 import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
+import ThemeApplier from "@/components/ThemeApplier";
 
 export const metadata: Metadata = {
   title: "Softly · 소프틀리",
@@ -40,6 +41,7 @@ export default function RootLayout({
     <html lang="ko" className="h-full antialiased">
       <body className="flex min-h-full flex-col font-sans">
         <ServiceWorkerRegister />
+        <ThemeApplier />
         <I18nProvider>
           <div className="mx-auto flex w-full max-w-md flex-1 flex-col px-5 pb-10">
             {children}

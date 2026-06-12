@@ -6,6 +6,7 @@ import { useMemo } from "react";
 import BigButton from "@/components/BigButton";
 import Card from "@/components/Card";
 import PageHeader from "@/components/PageHeader";
+import Sticker from "@/components/Sticker";
 import { useI18n } from "@/lib/i18n";
 import { checkInFields, eventSummaryLine } from "@/lib/format";
 import { formatDateDisplay, todayStr } from "@/lib/date";
@@ -31,8 +32,9 @@ function Today() {
   return (
     <main className="flex flex-1 flex-col gap-4 fade-in">
       <PageHeader title={t.today.title} />
-      <p className="text-sm text-warm-500 dark:text-warm-400">
+      <p className="flex items-center gap-2 text-sm text-warm-500 dark:text-warm-400">
         {formatDateDisplay(today, lang)}
+        {checkIn?.sticker && <Sticker id={checkIn.sticker} size={20} />}
       </p>
 
       {checkIn ? (
