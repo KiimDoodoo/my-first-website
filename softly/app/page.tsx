@@ -6,9 +6,10 @@ import { useMemo, useState } from "react";
 import BigButton from "@/components/BigButton";
 import Card from "@/components/Card";
 import Character from "@/components/Character";
+import Sticker from "@/components/Sticker";
 import { useI18n } from "@/lib/i18n";
 import { getGreeting } from "@/lib/messages";
-import { dateStrDaysAgo, nowTimeStr, todayStr } from "@/lib/date";
+import { dateStrDaysAgo, lastNDates, nowTimeStr, todayStr } from "@/lib/date";
 import { useIsClient } from "@/lib/useIsClient";
 import {
   addEvent,
@@ -31,7 +32,7 @@ export default function HomePage() {
 }
 
 function Home() {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const router = useRouter();
   const [medCardDismissed, setMedCardDismissed] = useState(
     () => getMedCardDismissedDate() === todayStr(),
@@ -122,6 +123,35 @@ function Home() {
         </Card>
       )}
 
+      <Card>
+        <h2 className="text-sm text-warm-500 dark:text-warm-400">
+          {t.home.weekRow.title}
+        </h2>
+        <div className="mt-2 grid grid-cols-7 gap-1">
+          {lastNDates(7).map((d) => {
+            const record = checkIns.find((c) => c.date === d);
+            const dayLabel = new Date(`${d}T00:00:00`).toLocaleDateString(
+              lang === "ko" ? "ko-KR" : "en-US",
+              { weekday: "narrow" },
+            );
+            return (
+              <span key={d} className="flex flex-col items-center gap-1">
+                <span className="flex h-6 items-center justify-center">
+                  {record ? (
+                    <Sticker id={record.sticker ?? "sprout"} size={20} />
+                  ) : (
+                    <span className="h-1.5 w-1.5 rounded-full bg-warm-200 dark:bg-warm-800" />
+                  )}
+                </span>
+                <span className="text-[10px] text-warm-400 dark:text-warm-500">
+                  {dayLabel}
+                </span>
+              </span>
+            );
+          })}
+        </div>
+      </Card>
+
       {todayRecord ? (
         <div className="flex flex-col gap-3">
           <p className="text-center text-sm text-sage-600 dark:text-sage-300">
@@ -139,8 +169,6 @@ function Home() {
           {t.home.checkinCta}
         </BigButton>
       )}
-
-      <BigButton onClick={recordEventNow}>{t.home.unusualEventButton}</BigButton>
 
       <Card>
         <div className="flex items-baseline justify-between gap-2">
@@ -169,6 +197,8 @@ function Home() {
           ))}
         </div>
       </Card>
+
+      <BigButton onClick={recordEventNow}>{t.home.unusualEventButton}</BigButton>
 
       <nav className="mt-2 grid grid-cols-2 gap-3">
         <Link

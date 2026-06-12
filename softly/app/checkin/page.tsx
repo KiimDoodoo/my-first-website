@@ -6,7 +6,10 @@ import { useEffect, useMemo, useState } from "react";
 import BigButton from "@/components/BigButton";
 import Character from "@/components/Character";
 import Dots from "@/components/Dots";
+import Sticker, { STICKER_IDS } from "@/components/Sticker";
 import { useI18n } from "@/lib/i18n";
+import { formatDateDisplay } from "@/lib/date";
+
 import {
   encodeMainDrain,
   modeQuestionIdForDate,
@@ -84,7 +87,7 @@ export default function CheckInPage() {
 }
 
 function CheckInFlow() {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const router = useRouter();
   const today = todayStr();
 
@@ -95,6 +98,7 @@ function CheckInFlow() {
   const [response, setResponse] = useState<string | null>(null);
   const [noteText, setNoteText] = useState("");
   const [noteSaved, setNoteSaved] = useState(false);
+  const [sticker, setSticker] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     if (!profile) router.replace("/onboarding");
@@ -132,10 +136,20 @@ function CheckInFlow() {
       unusualEvent: finalAnswers.unusualEvent,
       mainDrain: finalAnswers.mainDrain,
       note: existing?.note,
+      sticker: existing?.sticker,
       createdAt: existing?.createdAt ?? new Date().toISOString(),
     });
     clearDraft();
+    setSticker(existing?.sticker);
     setResponse(pickResponse(finalAnswers, t));
+  };
+
+  const pickSticker = (id: string) => {
+    const record = getCheckInByDate(today);
+    if (!record) return;
+    const next = record.sticker === id ? undefined : id;
+    saveCheckIn({ ...record, sticker: next });
+    setSticker(next);
   };
 
   const goBack = () => {
@@ -167,6 +181,32 @@ function CheckInFlow() {
         <p className="text-lg leading-relaxed text-warm-800 dark:text-warm-100">
           {response}
         </p>
+
+        <div className="w-full rounded-3xl border border-warm-100 bg-white p-5 shadow-sm dark:border-warm-800 dark:bg-warm-900">
+          <p className="text-sm text-warm-500 dark:text-warm-400">
+            {t.checkin.complete.todayPage} · {formatDateDisplay(today, lang)}
+          </p>
+          <p className="mt-2 text-sm text-warm-700 dark:text-warm-200">
+            {t.checkin.complete.stickerPrompt}
+          </p>
+          <div className="mt-3 flex flex-wrap justify-center gap-2">
+            {STICKER_IDS.map((id) => (
+              <button
+                key={id}
+                type="button"
+                aria-pressed={sticker === id}
+                onClick={() => pickSticker(id)}
+                className={`flex h-12 w-12 items-center justify-center rounded-2xl border transition-colors duration-200 ${
+                  sticker === id
+                    ? "border-sage-400 bg-sage-100 dark:border-sage-500 dark:bg-sage-800"
+                    : "border-warm-100 bg-warm-50 dark:border-warm-800 dark:bg-warm-950"
+                }`}
+              >
+                <Sticker id={id} size={26} />
+              </button>
+            ))}
+          </div>
+        </div>
 
         {heavyDay && (
           <div className="w-full rounded-3xl border border-sage-100 bg-sage-50 p-5 dark:border-sage-800 dark:bg-sage-900">

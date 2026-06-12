@@ -15,9 +15,9 @@ export const ko = {
   },
 
   landing: {
-    subtitle: "말로 설명하기 어려운 내 컨디션을,\n보여줄 수 있는 기록으로",
+    subtitle: "하루 한 번, 한 번의 탭으로 쓰는\n가장 가벼운 다이어리",
     description:
-      "작은 친구가 매일 한두 가지만 물어봐요. 한 번의 탭이면 충분해요. 쌓인 기록은 필요할 때 가족이나 믿는 사람에게 꺼내 보여줄 수 있는 차분한 정리가 돼요.",
+      "작은 친구가 매일 한두 가지만 물어봐요. 탭 몇 번이면 오늘의 일기가 완성되고, 기록한 날엔 달력에 새싹이 자라요. 쌓인 기록은 필요할 때 믿는 사람에게 보여줄 수 있는 차분한 정리가 돼요.",
     note: "이 기록은 스스로를 돌아보기 위한 것이지, 의료 조언이 아니에요.",
     start: "시작하기",
   },
@@ -70,6 +70,9 @@ export const ko = {
       morning: "하루를 시작하며, 잠깐 나를 들여다봐요.",
       medication: "약 챙기는 김에, 오늘도 가볍게 체크해요.",
       anytime: "",
+    },
+    weekRow: {
+      title: "이번 주 페이지",
     },
     selfCare: {
       title: "오늘의 작은 돌봄",
@@ -192,6 +195,8 @@ export const ko = {
       },
     },
     complete: {
+      todayPage: "오늘의 페이지",
+      stickerPrompt: "오늘 페이지에 스티커 하나 붙여볼까요?",
       viewToday: "오늘 기록 보기",
       addEventDetail: "특이한 일 자세히 남기기",
       breatheSuggestion: "오늘은 조금 무거웠네요. 잠깐 숨을 고르고 가도 좋아요.",
@@ -381,6 +386,13 @@ export const ko = {
     title: "설정",
     mode: "함께하는 하루",
     moment: "들여다보는 시간",
+    theme: "테마",
+    themes: {
+      sage: "세이지",
+      warm: "웜 베이지",
+      lavender: "안개 라벤더",
+      forest: "깊은 숲",
+    },
     language: "언어",
     languages: { ko: "한국어", en: "English" },
     exportJson: "데이터 내보내기 (JSON)",

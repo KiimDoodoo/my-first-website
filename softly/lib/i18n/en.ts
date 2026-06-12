@@ -17,9 +17,9 @@ export const en: Dict = {
   },
 
   landing: {
-    subtitle: "Turn the condition that's hard to put into words\ninto records you can show",
+    subtitle: "Once a day, one tap —\nthe lightest diary there is",
     description:
-      "A little friend asks you one or two things a day. One tap is enough — and your records become a calm summary you can show family or someone you trust when needed.",
+      "A little friend asks you one or two things a day. A few taps complete today's page, and a sprout grows on your calendar for every day you record. When needed, your records become a calm summary you can show someone you trust.",
     note: "These records are for self-reflection, not medical advice.",
     start: "Get started",
   },
@@ -72,6 +72,9 @@ export const en: Dict = {
       morning: "As the day starts, take a moment for yourself.",
       medication: "While you're at your medication, a light check-in too.",
       anytime: "",
+    },
+    weekRow: {
+      title: "This week's pages",
     },
     selfCare: {
       title: "Today's small care",
@@ -194,6 +197,8 @@ export const en: Dict = {
       },
     },
     complete: {
+      todayPage: "Today's page",
+      stickerPrompt: "Want to put a sticker on today's page?",
       viewToday: "View today's record",
       addEventDetail: "Add details about the unusual event",
       breatheSuggestion:
@@ -399,6 +404,13 @@ export const en: Dict = {
     title: "Settings",
     mode: "Your kind of day",
     moment: "Check-in moment",
+    theme: "Theme",
+    themes: {
+      sage: "Sage",
+      warm: "Warm beige",
+      lavender: "Misty lavender",
+      forest: "Deep forest",
+    },
     language: "Language",
     languages: { ko: "한국어", en: "English" },
     exportJson: "Export data (JSON)",

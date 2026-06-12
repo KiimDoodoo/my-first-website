@@ -5,10 +5,14 @@ export type Language = "ko" | "en";
 /** When the user prefers to check in — used for gentle copy, never for nagging. */
 export type CheckinMoment = "night" | "morning" | "medication" | "anytime";
 
+/** App-wide color mood. All themes stay muted and photosensitivity-safe. */
+export type Theme = "sage" | "warm" | "lavender" | "forest";
+
 export interface UserProfile {
   mode: Mode;
   language: Language;
   checkinMoment?: CheckinMoment;
+  theme?: Theme;
   createdAt: string;
 }
 
@@ -30,6 +34,7 @@ export interface DailyCheckIn {
   unusualEvent?: UnusualState;
   mainDrain?: string; // "<questionId>:<optionValue>"
   note?: string;
+  sticker?: string; // diary sticker id (see components/Sticker.tsx)
   createdAt: string;
 }
 

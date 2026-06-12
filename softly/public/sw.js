@@ -1,6 +1,6 @@
 // Softly service worker: app-shell caching so the app opens offline.
 // All user data lives in localStorage, so caching pages is enough.
-const CACHE_NAME = "softly-v4";
+const CACHE_NAME = "softly-v5";
 
 const APP_SHELL = [
   "/",
