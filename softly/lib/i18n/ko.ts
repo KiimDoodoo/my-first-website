@@ -15,9 +15,9 @@ export const ko = {
   },
 
   landing: {
-    subtitle: "하루를 가볍게 들여다보는 작은 기록 공간",
+    subtitle: "말로 설명하기 어려운 내 컨디션을,\n보여줄 수 있는 기록으로",
     description:
-      "작은 친구가 매일 한두 가지만 물어봐요. 길게 쓰지 않아도 괜찮아요. 한 번의 탭이면 충분해요.",
+      "작은 친구가 매일 한두 가지만 물어봐요. 한 번의 탭이면 충분해요. 쌓인 기록은 필요할 때 가족이나 믿는 사람에게 꺼내 보여줄 수 있는 차분한 정리가 돼요.",
     note: "이 기록은 스스로를 돌아보기 위한 것이지, 의료 조언이 아니에요.",
     start: "시작하기",
   },
@@ -25,6 +25,14 @@ export const ko = {
   onboarding: {
     question: "Softly가 어떤 하루를 함께하면 좋을까요?",
     hint: "언제든 설정에서 바꿀 수 있어요.",
+    momentQuestion: "언제 들여다보면 좋을까요?",
+    momentHint: "기존 습관에 붙여두면 잊지 않고 떠올리기 쉬워요.",
+    moments: {
+      night: "잠들기 전에",
+      morning: "아침을 시작할 때",
+      medication: "약을 챙길 때",
+      anytime: "정해두지 않을래요",
+    },
     modes: {
       worker: {
         label: "일하는 하루",
@@ -50,10 +58,27 @@ export const ko = {
     medCard: "오늘 약은 챙기셨어요? 체크만 해두면 돼요.",
     medCardDismiss: "나중에요",
     nav: {
+      breathe: "숨 고르기",
+      moments: "마음 서랍",
       summary: "7일 리듬",
       records: "기록 보기",
       safety: "안심 카드",
       settings: "설정",
+    },
+    momentLines: {
+      night: "잠들기 전, 오늘을 가볍게 돌아봐요.",
+      morning: "하루를 시작하며, 잠깐 나를 들여다봐요.",
+      medication: "약 챙기는 김에, 오늘도 가볍게 체크해요.",
+      anytime: "",
+    },
+    selfCare: {
+      title: "오늘의 작은 돌봄",
+      hint: "해도 좋고, 안 해도 괜찮아요.",
+      items: {
+        water: "물 한 잔",
+        walk: "잠깐 걷기",
+        window: "창밖 보기",
+      },
     },
     greetings: {
       default: [
@@ -169,6 +194,12 @@ export const ko = {
     complete: {
       viewToday: "오늘 기록 보기",
       addEventDetail: "특이한 일 자세히 남기기",
+      breatheSuggestion: "오늘은 조금 무거웠네요. 잠깐 숨을 고르고 가도 좋아요.",
+      breatheLink: "1분 숨 고르기",
+      oneGoodThing: "오늘 마음에 남는 한 가지가 있다면, 적어둘래요?",
+      oneGoodThingPlaceholder: "한 줄이면 충분해요 (선택)",
+      oneGoodThingSave: "적어두기",
+      oneGoodThingSaved: "잘 담아뒀어요.",
     },
     responses: {
       okay: [
@@ -231,6 +262,8 @@ export const ko = {
 
   summary: {
     title: "7일 리듬",
+    earlyHint:
+      "기록이 3일만 모여도 나의 리듬이 보이기 시작해요. 천천히, 하루씩이면 충분해요.",
     selfCare: (n: number) => `이번 주, 나를 ${n}번 들여다봤어요.`,
     lines: {
       overloaded: (n: number) => `버거운 날이 ${n}번 있었어요.`,
@@ -239,6 +272,7 @@ export const ko = {
       highStress: (n: number) => `스트레스가 높은 날이 ${n}번 있었어요.`,
       medication: (n: number) => `복약을 체크한 날이 ${n}일 있었어요.`,
       events: (n: number) => `특이한 일 기록이 ${n}건 있었어요.`,
+      selfCare: (n: number) => `작은 돌봄을 ${n}번 챙겼어요.`,
     },
     sideBySideNote: "이 기록들이 같은 날에 함께 나타났는지 함께 볼 수 있어요.",
     timelineRows: {
@@ -286,6 +320,17 @@ export const ko = {
     editTitle: "특이한 일 수정",
   },
 
+  breathe: {
+    title: "숨 고르기",
+    intro: "1분이면 충분해요. 편한 자세로, 시작하고 싶을 때 시작해요.",
+    start: "시작하기",
+    inhale: "천천히 들이쉬어요",
+    exhale: "천천히 내쉬어요",
+    done: "잘했어요. 오늘의 호흡은 이걸로 충분해요.",
+    again: "한 번 더",
+    note: "언제든 멈춰도 괜찮아요.",
+  },
+
   records: {
     title: "기록 보기",
     range7: "최근 7일",
@@ -293,13 +338,25 @@ export const ko = {
     rangeCustom: "직접 선택",
     from: "시작일",
     to: "종료일",
-    empty: "이 기간에는 기록이 없어요.",
+    empty:
+      "아직 이 기간에는 기록이 없어요. 기록이 쌓이면 중요한 대화나 상담 전에 이곳에서 한눈에 모아 볼 수 있어요.",
     checkinLabel: "체크인",
     eventLabel: "특이한 일",
     copyText: "텍스트로 복사하기",
     copied: "복사했어요",
     print: "인쇄용 화면 보기",
     exportTitle: (from: string, to: string) => `소프틀리 기록 (${from} ~ ${to})`,
+    periodSummary: "기간 요약",
+    periodCheckins: (n: number) => `이 기간에 나를 ${n}번 들여다봤어요.`,
+    printedAt: (date: string) => `${date} 출력 · Softly(소프틀리) 개인 기록`,
+  },
+
+  moments: {
+    title: "마음 서랍",
+    intro: "체크인 끝에 적어둔 '마음에 남는 한 가지'들이 여기 모여요.",
+    empty:
+      "아직 서랍이 비어 있어요. 체크인 끝에 한 줄을 적어두면, 힘든 날 꺼내 볼 수 있는 나만의 문장들이 쌓여요.",
+    calendarLegend: "기록을 남긴 날이에요",
   },
 
   safety: {
@@ -323,10 +380,18 @@ export const ko = {
   settings: {
     title: "설정",
     mode: "함께하는 하루",
+    moment: "들여다보는 시간",
     language: "언어",
     languages: { ko: "한국어", en: "English" },
     exportJson: "데이터 내보내기 (JSON)",
     exportDone: "복사했어요",
+    importJson: "데이터 가져오기 (JSON)",
+    importConfirm: (c: number, e: number) =>
+      `체크인 ${c}개, 특이한 일 ${e}건을 가져올까요? 지금 이 기기의 기록은 가져온 데이터로 바뀌어요.`,
+    importYes: "네, 가져올게요",
+    importDone: "데이터를 가져왔어요.",
+    importError:
+      "파일을 읽지 못했어요. Softly에서 내보낸 JSON 파일인지 확인해 주세요.",
     clearData: "모든 기록 지우기",
     clearConfirm:
       "정말 모든 기록을 지울까요? 이 기기에서만 지워지고, 되돌릴 수 없어요.",

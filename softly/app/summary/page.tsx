@@ -5,7 +5,7 @@ import Card from "@/components/Card";
 import PageHeader from "@/components/PageHeader";
 import { useI18n } from "@/lib/i18n";
 import { lastNDates } from "@/lib/date";
-import { getCheckIns, getEvents } from "@/lib/storage";
+import { getCheckIns, getEvents, getSelfCareLog } from "@/lib/storage";
 import { useIsClient } from "@/lib/useIsClient";
 
 export default function SummaryPage() {
@@ -18,6 +18,7 @@ function Summary() {
   const { t, lang } = useI18n();
   const checkIns = useMemo(() => getCheckIns(), []);
   const events = useMemo(() => getEvents(), []);
+  const selfCareLog = useMemo(() => getSelfCareLog(), []);
 
   const days = lastNDates(7);
   const week = checkIns.filter((c) => days.includes(c.date));
@@ -32,6 +33,11 @@ function Summary() {
     highStress: week.filter((c) => c.stress === "high").length,
     medication: week.filter((c) => c.medication === "done").length,
     events: weekEvents.length,
+    selfCare: days.reduce(
+      (sum, d) =>
+        sum + Object.values(selfCareLog[d] ?? {}).filter(Boolean).length,
+      0,
+    ),
   };
 
   // Side-by-side timeline rows: shown together, never interpreted (no causal copy).
@@ -67,6 +73,7 @@ function Summary() {
     t.summary.lines.highStress(counts.highStress),
     t.summary.lines.medication(counts.medication),
     t.summary.lines.events(counts.events),
+    t.summary.lines.selfCare(counts.selfCare),
   ];
 
   const dayLabel = (dateStr: string) =>
@@ -83,6 +90,11 @@ function Summary() {
         <p className="text-lg font-medium text-sage-800 dark:text-sage-100">
           {t.summary.selfCare(counts.checkins)}
         </p>
+        {counts.checkins < 3 && (
+          <p className="mt-2 text-sm text-sage-700 dark:text-sage-200">
+            {t.summary.earlyHint}
+          </p>
+        )}
       </Card>
 
       <Card>

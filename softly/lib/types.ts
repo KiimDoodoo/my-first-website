@@ -2,9 +2,13 @@ export type Mode = "worker" | "parent" | "student";
 
 export type Language = "ko" | "en";
 
+/** When the user prefers to check in — used for gentle copy, never for nagging. */
+export type CheckinMoment = "night" | "morning" | "medication" | "anytime";
+
 export interface UserProfile {
   mode: Mode;
   language: Language;
+  checkinMoment?: CheckinMoment;
   createdAt: string;
 }
 
@@ -49,6 +53,11 @@ export interface SafetyCard {
   whatNotToDo?: string;
   additionalNotes?: string;
 }
+
+/** One-tap self-care marks for a day. No targets, no streaks. */
+export type SelfCareKey = "water" | "walk" | "window";
+export type SelfCareDay = Partial<Record<SelfCareKey, boolean>>;
+export type SelfCareLog = Record<string, SelfCareDay>; // keyed by YYYY-MM-DD
 
 export interface CheckInDraft {
   date: string; // YYYY-MM-DD — only restored on the same day

@@ -34,6 +34,8 @@ npm start
 | Landing / home (helper greeting) | `/` |
 | Onboarding (worker / parent / student mode) | `/onboarding` |
 | Daily check-in (conversational, one question per screen) | `/checkin` |
+| 1-minute breathing guide | `/breathe` |
+| Memory drawer (collected one-liners + record calendar) | `/moments` |
 | Today summary | `/today` |
 | 7-day rhythm summary | `/summary` |
 | Quick unusual-event record | `/event` |
@@ -50,7 +52,10 @@ npm start
   `lib/i18n/en.ts`); Korean is the default language.
 - **Helper character**: rule-based relational greetings and a pool of gentle
   post-check-in responses in `lib/messages.ts` — no AI.
-- **PWA-ready**: `public/manifest.webmanifest` + icon (no push notifications).
+- **PWA-ready**: `public/manifest.webmanifest`, PNG/SVG icons
+  (`scripts/generate-icons.mjs` regenerates them), and a service worker
+  (`public/sw.js`) so the app opens offline once visited. No push
+  notifications.
 - **Photosensitivity-safe by design**: fade-only transitions (≥200 ms), no
   flashing or blinking, no saturated red, muted sage/warm-neutral palette,
   `prefers-reduced-motion` respected, dark mode follows the system preference.
@@ -59,4 +64,5 @@ npm start
 
 localStorage keys: `softly_user_profile`, `softly_daily_checkins`,
 `softly_unusual_events`, `softly_safety_card`, `softly_checkin_draft`.
-Settings offers a JSON export and a confirm-guarded "clear all data".
+Settings offers a JSON export, a JSON import (restore from an export, with a
+confirm step), and a confirm-guarded "clear all data".

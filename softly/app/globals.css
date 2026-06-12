@@ -76,6 +76,21 @@ body {
   animation: softly-float 6s ease-in-out infinite;
 }
 
+/* Slow breathing guide: one 8s cycle, smooth scale only — no flashing. */
+@keyframes softly-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.25);
+  }
+}
+
+.breathe-circle {
+  animation: softly-breathe 8s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

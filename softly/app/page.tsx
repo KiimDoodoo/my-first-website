@@ -16,8 +16,13 @@ import {
   getCheckIns,
   getMedCardDismissedDate,
   getProfile,
+  getSelfCareDay,
   newId,
+  toggleSelfCare,
 } from "@/lib/storage";
+import type { SelfCareKey } from "@/lib/types";
+
+const SELF_CARE_KEYS: SelfCareKey[] = ["water", "walk", "window"];
 
 export default function HomePage() {
   const isClient = useIsClient();
@@ -31,6 +36,7 @@ function Home() {
   const [medCardDismissed, setMedCardDismissed] = useState(
     () => getMedCardDismissedDate() === todayStr(),
   );
+  const [selfCare, setSelfCare] = useState(() => getSelfCareDay(todayStr()));
 
   const profile = useMemo(() => getProfile(), []);
   const checkIns = useMemo(() => getCheckIns(), []);
@@ -49,7 +55,7 @@ function Home() {
           <h1 className="text-3xl font-bold text-sage-700 dark:text-sage-300">
             {t.common.appName}
           </h1>
-          <p className="mt-2 text-warm-700 dark:text-warm-300">
+          <p className="mt-2 whitespace-pre-line text-warm-700 dark:text-warm-300">
             {t.landing.subtitle}
           </p>
         </div>
@@ -89,6 +95,13 @@ function Home() {
       <div className="flex flex-col items-center gap-4 text-center">
         <Character size={104} />
         <p className="text-lg text-warm-800 dark:text-warm-100">{greeting}</p>
+        {!todayRecord &&
+          profile.checkinMoment &&
+          t.home.momentLines[profile.checkinMoment] && (
+            <p className="text-sm text-warm-500 dark:text-warm-400">
+              {t.home.momentLines[profile.checkinMoment]}
+            </p>
+          )}
       </div>
 
       {showMedCard && (
@@ -129,7 +142,47 @@ function Home() {
 
       <BigButton onClick={recordEventNow}>{t.home.unusualEventButton}</BigButton>
 
+      <Card>
+        <div className="flex items-baseline justify-between gap-2">
+          <h2 className="font-medium text-warm-800 dark:text-warm-100">
+            {t.home.selfCare.title}
+          </h2>
+          <span className="text-xs text-warm-400 dark:text-warm-500">
+            {t.home.selfCare.hint}
+          </span>
+        </div>
+        <div className="mt-3 flex flex-wrap gap-2">
+          {SELF_CARE_KEYS.map((key) => (
+            <button
+              key={key}
+              type="button"
+              aria-pressed={Boolean(selfCare[key])}
+              onClick={() => setSelfCare(toggleSelfCare(todayStr(), key))}
+              className={`min-h-12 rounded-2xl border px-4 text-sm transition-colors duration-200 ${
+                selfCare[key]
+                  ? "border-sage-400 bg-sage-100 text-sage-800 dark:border-sage-500 dark:bg-sage-800 dark:text-sage-100"
+                  : "border-warm-200 bg-white text-warm-600 dark:border-warm-800 dark:bg-warm-900 dark:text-warm-300"
+              }`}
+            >
+              {t.home.selfCare.items[key]}
+            </button>
+          ))}
+        </div>
+      </Card>
+
       <nav className="mt-2 grid grid-cols-2 gap-3">
+        <Link
+          href="/breathe"
+          className="flex min-h-14 items-center justify-center rounded-2xl border border-sage-200 bg-sage-50 text-sage-700 shadow-sm active:bg-sage-100 dark:border-sage-700 dark:bg-sage-900 dark:text-sage-200 dark:active:bg-sage-800"
+        >
+          {t.home.nav.breathe}
+        </Link>
+        <Link
+          href="/moments"
+          className="flex min-h-14 items-center justify-center rounded-2xl border border-sage-200 bg-sage-50 text-sage-700 shadow-sm active:bg-sage-100 dark:border-sage-700 dark:bg-sage-900 dark:text-sage-200 dark:active:bg-sage-800"
+        >
+          {t.home.nav.moments}
+        </Link>
         {(
           [
             ["/summary", t.home.nav.summary],

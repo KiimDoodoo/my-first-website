@@ -2,6 +2,9 @@ import type {
   CheckInDraft,
   DailyCheckIn,
   SafetyCard,
+  SelfCareDay,
+  SelfCareKey,
+  SelfCareLog,
   UnusualEvent,
   UserProfile,
 } from "./types";
@@ -13,6 +16,7 @@ export const STORAGE_KEYS = {
   safetyCard: "softly_safety_card",
   draft: "softly_checkin_draft",
   medCardDismissed: "softly_med_card_dismissed",
+  selfCare: "softly_selfcare",
 } as const;
 
 function read<T>(key: string, fallback: T): T {
@@ -134,6 +138,23 @@ export function dismissMedCard(today: string): void {
   write(STORAGE_KEYS.medCardDismissed, today);
 }
 
+// --- self-care marks ---
+
+export function getSelfCareLog(): SelfCareLog {
+  return read<SelfCareLog>(STORAGE_KEYS.selfCare, {});
+}
+
+export function getSelfCareDay(date: string): SelfCareDay {
+  return getSelfCareLog()[date] ?? {};
+}
+
+export function toggleSelfCare(date: string, key: SelfCareKey): SelfCareDay {
+  const log = getSelfCareLog();
+  const day = { ...(log[date] ?? {}), [key]: !log[date]?.[key] };
+  write(STORAGE_KEYS.selfCare, { ...log, [date]: day });
+  return day;
+}
+
 // --- export / clear ---
 
 export function exportAllData(): string {
@@ -142,6 +163,7 @@ export function exportAllData(): string {
     dailyCheckIns: getCheckIns(),
     unusualEvents: getEvents(),
     safetyCard: getSafetyCard(),
+    selfCare: getSelfCareLog(),
     exportedAt: new Date().toISOString(),
   };
   return JSON.stringify(data, null, 2);
@@ -149,4 +171,83 @@ export function exportAllData(): string {
 
 export function clearAllData(): void {
   Object.values(STORAGE_KEYS).forEach(remove);
+}
+
+// --- import (restore from a JSON export) ---
+
+export interface ImportPreview {
+  profile: UserProfile | null;
+  dailyCheckIns: DailyCheckIn[];
+  unusualEvents: UnusualEvent[];
+  safetyCard: SafetyCard | null;
+  selfCare: SelfCareLog | null;
+}
+
+function isRecord(v: unknown): v is Record<string, unknown> {
+  return typeof v === "object" && v !== null && !Array.isArray(v);
+}
+
+/**
+ * Parses a Softly JSON export. Returns null when the file isn't
+ * recognizably a Softly export. Malformed entries are dropped.
+ */
+export function parseImport(raw: string): ImportPreview | null {
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(raw);
+  } catch {
+    return null;
+  }
+  if (!isRecord(parsed)) return null;
+
+  const profile =
+    isRecord(parsed.profile) && typeof parsed.profile.mode === "string"
+      ? (parsed.profile as unknown as UserProfile)
+      : null;
+
+  const dailyCheckIns = Array.isArray(parsed.dailyCheckIns)
+    ? (parsed.dailyCheckIns.filter(
+        (c) =>
+          isRecord(c) &&
+          typeof c.date === "string" &&
+          typeof c.bodyState === "string",
+      ) as unknown as DailyCheckIn[])
+    : [];
+
+  const unusualEvents = Array.isArray(parsed.unusualEvents)
+    ? (parsed.unusualEvents.filter(
+        (e) =>
+          isRecord(e) &&
+          typeof e.date === "string" &&
+          typeof e.time === "string",
+      ) as unknown as UnusualEvent[])
+    : [];
+
+  const safetyCard = isRecord(parsed.safetyCard)
+    ? (parsed.safetyCard as SafetyCard)
+    : null;
+
+  const selfCare = isRecord(parsed.selfCare)
+    ? (parsed.selfCare as SelfCareLog)
+    : null;
+
+  const hasAnything =
+    profile !== null ||
+    dailyCheckIns.length > 0 ||
+    unusualEvents.length > 0 ||
+    safetyCard !== null ||
+    selfCare !== null;
+  if (!hasAnything) return null;
+
+  return { profile, dailyCheckIns, unusualEvents, safetyCard, selfCare };
+}
+
+/** Replaces this device's data with the imported export. */
+export function applyImport(data: ImportPreview): void {
+  if (data.profile) write(STORAGE_KEYS.profile, data.profile);
+  write(STORAGE_KEYS.checkins, data.dailyCheckIns);
+  write(STORAGE_KEYS.events, data.unusualEvents);
+  if (data.safetyCard) write(STORAGE_KEYS.safetyCard, data.safetyCard);
+  if (data.selfCare) write(STORAGE_KEYS.selfCare, data.selfCare);
+  remove(STORAGE_KEYS.draft);
 }

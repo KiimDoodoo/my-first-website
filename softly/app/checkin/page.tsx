@@ -93,6 +93,8 @@ function CheckInFlow() {
   const [step, setStep] = useState(initial.step);
   const [answers, setAnswers] = useState<Answers>(initial.answers);
   const [response, setResponse] = useState<string | null>(null);
+  const [noteText, setNoteText] = useState("");
+  const [noteSaved, setNoteSaved] = useState(false);
 
   useEffect(() => {
     if (!profile) router.replace("/onboarding");
@@ -146,14 +148,64 @@ function CheckInFlow() {
     }
   };
 
+  const saveNote = () => {
+    const existing = getCheckInByDate(today);
+    if (!existing || !noteText.trim()) return;
+    saveCheckIn({ ...existing, note: noteText.trim() });
+    setNoteSaved(true);
+  };
+
   // ----- completion screen -----
   if (response) {
+    const heavyDay =
+      answers.bodyState === "overloaded" ||
+      answers.fatigue === "high" ||
+      answers.stress === "high";
     return (
       <main className="flex flex-1 flex-col items-center justify-center gap-6 text-center fade-in">
         <Character size={112} />
         <p className="text-lg leading-relaxed text-warm-800 dark:text-warm-100">
           {response}
         </p>
+
+        {heavyDay && (
+          <div className="w-full rounded-3xl border border-sage-100 bg-sage-50 p-5 dark:border-sage-800 dark:bg-sage-900">
+            <p className="text-sm text-sage-800 dark:text-sage-100">
+              {t.checkin.complete.breatheSuggestion}
+            </p>
+            <Link
+              href="/breathe"
+              className="mt-3 flex min-h-12 items-center justify-center rounded-2xl bg-sage-600 px-4 text-sm font-medium text-sage-50 dark:bg-sage-500 dark:text-warm-950"
+            >
+              {t.checkin.complete.breatheLink}
+            </Link>
+          </div>
+        )}
+
+        {noteSaved ? (
+          <p className="text-sm text-sage-600 dark:text-sage-300">
+            {t.checkin.complete.oneGoodThingSaved}
+          </p>
+        ) : (
+          <div className="flex w-full flex-col gap-2">
+            <p className="text-sm text-warm-600 dark:text-warm-300">
+              {t.checkin.complete.oneGoodThing}
+            </p>
+            <input
+              type="text"
+              value={noteText}
+              onChange={(e) => setNoteText(e.target.value)}
+              placeholder={t.checkin.complete.oneGoodThingPlaceholder}
+              className="min-h-14 rounded-2xl border border-warm-200 bg-white px-4 text-center text-base text-warm-800 placeholder:text-warm-400 dark:border-warm-800 dark:bg-warm-900 dark:text-warm-100"
+            />
+            {noteText.trim() && (
+              <BigButton onClick={saveNote}>
+                {t.checkin.complete.oneGoodThingSave}
+              </BigButton>
+            )}
+          </div>
+        )}
+
         <div className="flex w-full flex-col gap-3">
           <BigButton variant="primary" onClick={() => router.push("/today")}>
             {t.checkin.complete.viewToday}

@@ -17,9 +17,9 @@ export const en: Dict = {
   },
 
   landing: {
-    subtitle: "A small, quiet space to look at your day",
+    subtitle: "Turn the condition that's hard to put into words\ninto records you can show",
     description:
-      "A little friend asks you one or two things a day. No long writing needed — one tap is enough.",
+      "A little friend asks you one or two things a day. One tap is enough — and your records become a calm summary you can show family or someone you trust when needed.",
     note: "These records are for self-reflection, not medical advice.",
     start: "Get started",
   },
@@ -27,6 +27,14 @@ export const en: Dict = {
   onboarding: {
     question: "What kind of day should Softly keep you company through?",
     hint: "You can change this anytime in Settings.",
+    momentQuestion: "When would you like to check in?",
+    momentHint: "Attaching it to an existing habit makes it easy to remember.",
+    moments: {
+      night: "Before sleep",
+      morning: "Starting the day",
+      medication: "With my medication",
+      anytime: "No set time",
+    },
     modes: {
       worker: {
         label: "A working day",
@@ -52,10 +60,27 @@ export const en: Dict = {
     medCard: "Have you taken your medication today? A quick check is enough.",
     medCardDismiss: "Later",
     nav: {
+      breathe: "Catch your breath",
+      moments: "Memory drawer",
       summary: "7-day rhythm",
       records: "Records",
       safety: "Safety card",
       settings: "Settings",
+    },
+    momentLines: {
+      night: "Before sleep, gently look back at today.",
+      morning: "As the day starts, take a moment for yourself.",
+      medication: "While you're at your medication, a light check-in too.",
+      anytime: "",
+    },
+    selfCare: {
+      title: "Today's small care",
+      hint: "Nice to do, fine to skip.",
+      items: {
+        water: "A glass of water",
+        walk: "A short walk",
+        window: "Look out the window",
+      },
     },
     greetings: {
       default: [
@@ -171,6 +196,14 @@ export const en: Dict = {
     complete: {
       viewToday: "View today's record",
       addEventDetail: "Add details about the unusual event",
+      breatheSuggestion:
+        "Today felt a little heavy. Taking a moment to breathe might help.",
+      breatheLink: "1-minute breathing",
+      oneGoodThing:
+        "If one thing stayed with you today, want to note it down?",
+      oneGoodThingPlaceholder: "One line is plenty (optional)",
+      oneGoodThingSave: "Note it down",
+      oneGoodThingSaved: "Safely kept.",
     },
     responses: {
       okay: [
@@ -233,6 +266,8 @@ export const en: Dict = {
 
   summary: {
     title: "7-day rhythm",
+    earlyHint:
+      "Even three days of records start to show your rhythm. Slowly, one day at a time is plenty.",
     selfCare: (n: number) =>
       `This week, you checked in with yourself ${n} ${n === 1 ? "time" : "times"}.`,
     lines: {
@@ -248,6 +283,8 @@ export const en: Dict = {
         `Medication was checked on ${n} ${n === 1 ? "day" : "days"}.`,
       events: (n: number) =>
         `There ${n === 1 ? "was" : "were"} ${n} unusual-event ${n === 1 ? "record" : "records"}.`,
+      selfCare: (n: number) =>
+        `You did ${n} small ${n === 1 ? "act" : "acts"} of care.`,
     },
     sideBySideNote:
       "You can see whether these records appeared on the same days.",
@@ -296,6 +333,17 @@ export const en: Dict = {
     editTitle: "Edit unusual event",
   },
 
+  breathe: {
+    title: "Catch your breath",
+    intro: "One minute is plenty. Get comfortable and start whenever you like.",
+    start: "Start",
+    inhale: "Breathe in slowly",
+    exhale: "Breathe out slowly",
+    done: "Well done. That's enough breathing for today.",
+    again: "Once more",
+    note: "It's okay to stop anytime.",
+  },
+
   records: {
     title: "Records",
     range7: "Last 7 days",
@@ -303,7 +351,8 @@ export const en: Dict = {
     rangeCustom: "Custom",
     from: "From",
     to: "To",
-    empty: "No records in this period.",
+    empty:
+      "No records in this period yet. As records build up, you can review them here at a glance before an important talk.",
     checkinLabel: "Check-in",
     eventLabel: "Unusual event",
     copyText: "Copy as text",
@@ -311,6 +360,20 @@ export const en: Dict = {
     print: "Printable view",
     exportTitle: (from: string, to: string) =>
       `Softly records (${from} – ${to})`,
+    periodSummary: "Period summary",
+    periodCheckins: (n: number) =>
+      `You checked in with yourself ${n} ${n === 1 ? "time" : "times"} in this period.`,
+    printedAt: (date: string) =>
+      `Printed ${date} · Softly personal records`,
+  },
+
+  moments: {
+    title: "Memory drawer",
+    intro:
+      "The one-liners you noted after check-ins are collected here.",
+    empty:
+      "The drawer is still empty. Note one line after a check-in, and you'll build up sentences of your own to revisit on hard days.",
+    calendarLegend: "Days you left a record",
   },
 
   safety: {
@@ -335,10 +398,18 @@ export const en: Dict = {
   settings: {
     title: "Settings",
     mode: "Your kind of day",
+    moment: "Check-in moment",
     language: "Language",
     languages: { ko: "한국어", en: "English" },
     exportJson: "Export data (JSON)",
     exportDone: "Copied",
+    importJson: "Import data (JSON)",
+    importConfirm: (c: number, e: number) =>
+      `Import ${c} check-in${c === 1 ? "" : "s"} and ${e} unusual-event record${e === 1 ? "" : "s"}? The records on this device will be replaced.`,
+    importYes: "Yes, import",
+    importDone: "Data imported.",
+    importError:
+      "Couldn't read the file. Please check that it's a JSON file exported from Softly.",
     clearData: "Clear all records",
     clearConfirm:
       "Clear all records? This only affects this device and cannot be undone.",

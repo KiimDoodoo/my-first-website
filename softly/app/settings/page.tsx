@@ -1,21 +1,25 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import BigButton from "@/components/BigButton";
 import Card from "@/components/Card";
 import PageHeader from "@/components/PageHeader";
 import { useI18n } from "@/lib/i18n";
 import {
+  applyImport,
   clearAllData,
   exportAllData,
   getProfile,
+  parseImport,
   saveProfile,
+  type ImportPreview,
 } from "@/lib/storage";
 import { useIsClient } from "@/lib/useIsClient";
-import type { Language, Mode, UserProfile } from "@/lib/types";
+import type { CheckinMoment, Language, Mode, UserProfile } from "@/lib/types";
 
 const MODES: Mode[] = ["worker", "parent", "student"];
+const MOMENTS: CheckinMoment[] = ["night", "morning", "medication", "anytime"];
 const LANGS: Language[] = ["ko", "en"];
 
 export default function SettingsPage() {
@@ -32,10 +36,24 @@ function Settings() {
   );
   const [exported, setExported] = useState(false);
   const [confirmingClear, setConfirmingClear] = useState(false);
+  const [pendingImport, setPendingImport] = useState<ImportPreview | null>(
+    null,
+  );
+  const [importStatus, setImportStatus] = useState<"done" | "error" | null>(
+    null,
+  );
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const setMode = (mode: Mode) => {
     if (!profile) return;
     const next = { ...profile, mode };
+    saveProfile(next);
+    setProfile(next);
+  };
+
+  const setMoment = (checkinMoment: CheckinMoment) => {
+    if (!profile) return;
+    const next = { ...profile, checkinMoment };
     saveProfile(next);
     setProfile(next);
   };
@@ -69,6 +87,26 @@ function Settings() {
     router.push("/");
   };
 
+  const onImportFile = async (file: File | undefined) => {
+    setImportStatus(null);
+    setPendingImport(null);
+    if (!file) return;
+    const preview = parseImport(await file.text());
+    if (preview) {
+      setPendingImport(preview);
+    } else {
+      setImportStatus("error");
+    }
+  };
+
+  const confirmImport = () => {
+    if (!pendingImport) return;
+    applyImport(pendingImport);
+    setProfile(getProfile());
+    setPendingImport(null);
+    setImportStatus("done");
+  };
+
   const optionButton = (selected: boolean) =>
     `min-h-12 flex-1 rounded-2xl border text-sm transition-colors duration-200 ${
       selected
@@ -100,6 +138,24 @@ function Settings() {
 
       <Card>
         <h2 className="text-sm text-warm-500 dark:text-warm-400">
+          {t.settings.moment}
+        </h2>
+        <div className="mt-2 grid grid-cols-2 gap-2">
+          {MOMENTS.map((moment) => (
+            <button
+              key={moment}
+              type="button"
+              onClick={() => setMoment(moment)}
+              className={optionButton(profile?.checkinMoment === moment)}
+            >
+              {t.onboarding.moments[moment]}
+            </button>
+          ))}
+        </div>
+      </Card>
+
+      <Card>
+        <h2 className="text-sm text-warm-500 dark:text-warm-400">
           {t.settings.language}
         </h2>
         <div className="mt-2 flex gap-2">
@@ -119,6 +175,46 @@ function Settings() {
       <BigButton onClick={exportJson}>
         {exported ? t.settings.exportDone : t.settings.exportJson}
       </BigButton>
+
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="application/json,.json"
+        className="hidden"
+        onChange={(e) => {
+          void onImportFile(e.target.files?.[0]);
+          e.target.value = "";
+        }}
+      />
+      {pendingImport ? (
+        <Card className="bg-warm-100 border-warm-200 dark:bg-warm-800 dark:border-warm-700">
+          <p className="text-warm-800 dark:text-warm-100">
+            {t.settings.importConfirm(
+              pendingImport.dailyCheckIns.length,
+              pendingImport.unusualEvents.length,
+            )}
+          </p>
+          <div className="mt-3 flex flex-col gap-2">
+            <BigButton onClick={confirmImport}>
+              {t.settings.importYes}
+            </BigButton>
+            <BigButton variant="quiet" onClick={() => setPendingImport(null)}>
+              {t.common.cancel}
+            </BigButton>
+          </div>
+        </Card>
+      ) : (
+        <BigButton onClick={() => fileInputRef.current?.click()}>
+          {importStatus === "done"
+            ? t.settings.importDone
+            : t.settings.importJson}
+        </BigButton>
+      )}
+      {importStatus === "error" && (
+        <p className="text-sm text-warm-700 dark:text-warm-300">
+          {t.settings.importError}
+        </p>
+      )}
 
       {confirmingClear ? (
         <Card className="bg-warm-100 border-warm-200 dark:bg-warm-800 dark:border-warm-700">
